@@ -1,0 +1,25 @@
+import React from "react";
+import {Link, Routes, Route} from 'react-router-dom'
+import Andrew from "./Andrew";
+import Brady from "./Brady";
+
+const TeamScreen = () => {
+  return (
+    <div>
+      <h1>Our Team</h1>
+      <h2>Pick a Team Member</h2>
+      <Link to="/team/brady">
+        <button>Brady</button>
+      </Link>
+      <Link to="/team/andrew">
+        <button>Andrew</button>
+      </Link>
+      <Routes>
+        <Route path="andrew" element={<Andrew />} />
+        <Route path="brady" element={<Brady />} />
+      </Routes>
+    </div>
+  );
+};
+
+export default TeamScreen;
