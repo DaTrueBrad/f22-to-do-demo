@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React, {useState} from 'react'
 import Item from './Item'
 
@@ -5,9 +6,12 @@ const ListTasks = ({list, setList}) => {
   const [filter, setFilter] = useState("")
 
   const deleteTask = (value) => {
-    const newState = list
-    newState.splice(value, 1)
-    setList([...newState])
+    axios
+      .delete(`http://localhost:4000/api/deleteTask/${value}`)
+      .then((res) => {
+        list.splice(id, 1);
+        setList([...list]);
+      });
   }
 
   const listOfTasks = list.filter(item => item.category.includes(filter)).map((task, index) => {

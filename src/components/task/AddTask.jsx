@@ -1,29 +1,32 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 import CreateTask from "./CreateTask";
 import ListTasks from "./ListTasks";
 
 const AddTask = () => {
-  const [userInput, setUserInput] = useState("");
-  const [category, setCategory] = useState("");
   const [list, setList] = useState([]);
+  const [allCategories, setAllCategories] = useState([]);
 
-  const handleInputChange = (e) => setUserInput(e.target.value);
-  const handleCategoryChange = (e) => setCategory(e.target.value);
-  const handleClick = () => {
-    setList([...list, {name: userInput, category}])
-    setUserInput("")
+  const getTasks = () => {
+    axios
+      .get('http://localhost:4000/api/getAllTasks')
+      .then((res) => setList(res.data))
   }
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:4000/api/getCategories')
+      .then((res) => setAllCategories(res.data))
+    getTasks()
+  },[])
+  
 
   return (
     <div>
       <h1>Add Task</h1>
       <CreateTask
-        changeInput={handleInputChange}
-        userInput={userInput}
-        category={category}
-        changeCat={handleCategoryChange}
+        getTasks={getTasks}
         setList={setList}
-        handleClick={handleClick}
       />
       <h2>My Tasks</h2>
       <ListTasks list={list} setList={setList} />
